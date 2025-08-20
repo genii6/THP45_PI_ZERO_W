@@ -57,12 +57,15 @@ def set_blockout_time(setting):
         active_end_hour = active_row[3]
         print(f"Active Blockout Time: {active_start_hour} to {active_end_hour}")
 
+        # Push the enter button to confirm the start hour
+        short_press(BUTTON_GPIO_ENTER)
+
         # Calculate button pushes needed to set the new start hour
         pushes_to_start = calculate_button_pushes(active_start_hour, new_start_hour)
         for _ in range(pushes_to_start):
             short_press(BUTTON_GPIO_UP)
 
-        # Push the enter button to confirm the start hour
+        # Push the enter button to confirm the end hour
         short_press(BUTTON_GPIO_ENTER)
 
         # Calculate button pushes needed to set the new end hour
