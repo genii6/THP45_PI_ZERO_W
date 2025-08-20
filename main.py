@@ -9,7 +9,7 @@ BUTTON_GPIO_ENTER = 17
 
 BUTTON_LONG_PRESS_DURATION = 3.0  # 3000ms
 BUTTON_SHORT_PRESS_DURATION = 0.2  # 200ms
-PAUSE_DURATION = 1  # 1 second
+PAUSE_DURATION = 0.5  # 0.5 second
 
 THP45_DB = 'THP45.db'
 
@@ -56,7 +56,7 @@ def set_blockout_time(setting):
         active_end_hour = active_row[3]
         print(f"Active Blockout Time: {active_start_hour} to {active_end_hour}")
 
-        # Push the enter button to confirm the start hour
+        # Push the enter button to set the start hour
         short_press(BUTTON_GPIO_ENTER)
 
         # Calculate button pushes needed to set the new start hour
@@ -64,13 +64,16 @@ def set_blockout_time(setting):
         for _ in range(pushes_to_start):
             short_press(BUTTON_GPIO_UP)
 
-        # Push the enter button to confirm the end hour
+        # Push the enter button to set the end hour
         short_press(BUTTON_GPIO_ENTER)
 
         # Calculate button pushes needed to set the new end hour
         pushes_to_end = calculate_button_pushes(active_end_hour, new_end_hour)
         for _ in range(pushes_to_end):
             short_press(BUTTON_GPIO_UP)
+
+        # Push the enter button to confirm the end hour
+        short_press(BUTTON_GPIO_ENTER)
     else:
         print(f"No blockout setting found for: {setting}")
 
