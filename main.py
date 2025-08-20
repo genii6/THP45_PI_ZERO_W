@@ -56,7 +56,7 @@ def get_active_blockout_setting():
     row = cursor.fetchone()
     conn.close()
     print(f"Active Blockout Setting: ['{row}']")
-    return row[0][1] if row else None
+    return row[1] if row else None
 
 def get_blockout_setting_by_name(setting_name):
     conn = sqlite3.connect(THP45_DB)
