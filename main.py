@@ -1,16 +1,22 @@
 import RPi.GPIO as GPIO
 import time
 
-BUTTON_GPIO = 17  # Change this to your actual pin number
+BUTTON_GPIO_UP = 22
+BUTTON_GPIO_DOWN = 27
+BUTTON_GPIO_ENTER = 22
 
 GPIO.setmode(GPIO.BCM)
-GPIO.setup(BUTTON_GPIO, GPIO.OUT)
+GPIO.setup(BUTTON_GPIO_UP, GPIO.OUT)
+GPIO.setup(BUTTON_GPIO_DOWN, GPIO.OUT)
 
-# Default = button not pressed
-GPIO.output(BUTTON_GPIO, GPIO.LOW)
+# Default = buttons not pressed
+GPIO.output(BUTTON_GPIO_UP, GPIO.LOW)
+GPIO.output(BUTTON_GPIO_DOWN, GPIO.LOW)
 
 # Simulate a press
-GPIO.output(BUTTON_GPIO, GPIO.HIGH)
-time.sleep(0.2)  # hold for 200ms
-GPIO.output(BUTTON_GPIO, GPIO.LOW)
+GPIO.output(BUTTON_GPIO_UP, GPIO.HIGH)
+GPIO.output(BUTTON_GPIO_DOWN, GPIO.HIGH)
+time.sleep(3)  # hold for 200ms
+GPIO.output(BUTTON_GPIO_UP, GPIO.LOW)
+GPIO.output(BUTTON_GPIO_DOWN, GPIO.LOW)
 GPIO.cleanup()
