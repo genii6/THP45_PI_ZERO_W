@@ -7,6 +7,7 @@ BUTTON_GPIO_ENTER = 22
 
 BUTTON_LONG_PRESS_DURATION = 3.0  # 3000ms
 BUTTON_SHORT_PRESS_DURATION = 0.2  # 200ms
+PAUSE_DURATION = 1  # 1 second
 
 def setup_gpio():
     GPIO.setmode(GPIO.BCM)
@@ -30,6 +31,7 @@ def simulate_setup_mode():
     time.sleep(BUTTON_LONG_PRESS_DURATION)
     GPIO.output(BUTTON_GPIO_UP, GPIO.LOW)
     GPIO.output(BUTTON_GPIO_DOWN, GPIO.LOW)
+    time.sleep(PAUSE_DURATION)
 
 def enter_blockout_mode():
     # Simulate a short press to enter blockout mode
