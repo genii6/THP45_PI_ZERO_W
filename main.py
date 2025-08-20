@@ -53,6 +53,12 @@ def get_all_blockout_settings():
     return rows
 
 if __name__ == "__main__":
+    if len(sys.argv) > 1:
+        print(f"The script name is: {sys.argv[0]}")
+        print(f"The first argument is: {sys.argv[1]}")
+        # You can iterate through sys.argv[1:] to process all arguments
+    else:
+        print("No arguments provided.")
     setup_gpio()
     simulate_setup_mode()
     enter_blockout_mode()

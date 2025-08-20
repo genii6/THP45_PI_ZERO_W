@@ -8,12 +8,17 @@ def create_database():
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             setting_name TEXT NOT NULL,
             setting_start_hour INT NOT NULL,
-            setting_end_hour INT NOT NULL
+            setting_end_hour INT NOT NULL,
+            active BOOLEAN DEFAULT 0
         )
     ''')
     cursor.execute(
         "INSERT INTO blockout_settings (setting_name, setting_start_hour, setting_end_hour) VALUES (?, ?, ?)",
-            ("default_setting", 00, 00) # Default setting
+            ("disabled", 00, 00, 1) # Disabled setting
+        "INSERT INTO blockout_settings (setting_name, setting_start_hour, setting_end_hour) VALUES (?, ?, ?)",
+            ("peak", 16, 21) # peak blockout setting
+        "INSERT INTO blockout_settings (setting_name, setting_start_hour, setting_end_hour) VALUES (?, ?, ?)",
+            ("overnight", 22, 10) # overnight blockout setting
     )
     conn.commit()
     conn.close()
