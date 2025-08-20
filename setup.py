@@ -15,10 +15,14 @@ def create_database():
     cursor.execute(
         "INSERT INTO blockout_settings (setting_name, setting_start_hour, setting_end_hour) VALUES (?, ?, ?)",
             ("disabled", 00, 00, 1) # Disabled setting
+    )
+    cursor.execute(
         "INSERT INTO blockout_settings (setting_name, setting_start_hour, setting_end_hour) VALUES (?, ?, ?)",
-            ("peak", 16, 21) # peak blockout setting
+            ("peak", 16, 21, 0) # peak blockout setting
+    )
+    cursor.execute(
         "INSERT INTO blockout_settings (setting_name, setting_start_hour, setting_end_hour) VALUES (?, ?, ?)",
-            ("overnight", 22, 10) # overnight blockout setting
+            ("overnight", 22, 10, 0) # overnight blockout setting
     )
     conn.commit()
     conn.close()
