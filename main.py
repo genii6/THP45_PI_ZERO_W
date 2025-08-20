@@ -123,8 +123,8 @@ if __name__ == "__main__":
             setup_gpio()
             enter_setup_mode()
             enter_blockout_mode()
-            #set_blockout_time(sys.argv[1])
-            #set_blockout_setting_active(sys.argv[1])
+            set_blockout_time(sys.argv[1])
+            set_blockout_setting_active(sys.argv[1])
             print("Blockout time set successfully.")
             GPIO.cleanup()
     else:
