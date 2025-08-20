@@ -45,9 +45,32 @@ def enter_blockout_mode():
 
 # Setup the blockout time here.
 def set_blockout_time(setting):
-    print(f"Setting blockout time for: {setting}")
+    print(f"Applying Blockout Setting: {setting}")
     row = get_blockout_setting_by_name(setting)
     print(f"Blockout Setting: {row}")
+    if row:
+        new_start_hour = row[2]
+        new_end_hour = row[3]
+        print(f"Setting Blockout Time: {new_start_hour} to {new_end_hour}")
+        active_row = get_active_blockout_setting()
+        active_start_hour = active_row[2]
+        active_end_hour = active_row[3]
+        print(f"Active Blockout Time: {active_start_hour} to {active_end_hour}")
+
+        # Calculate button pushes needed to set the new start hour
+        pushes_to_start = calculate_button_pushes(active_start_hour, new_start_hour)
+        for _ in range(pushes_to_start):
+            short_press(BUTTON_GPIO_UP)
+
+        # Push the enter button to confirm the start hour
+        short_press(BUTTON_GPIO_ENTER)
+
+        # Calculate button pushes needed to set the new end hour
+        pushes_to_end = calculate_button_pushes(active_end_hour, new_end_hour)
+        for _ in range(pushes_to_end):
+            short_press(BUTTON_GPIO_UP)
+    else:
+        print(f"No blockout setting found for: {setting}")
 
 def get_active_blockout_setting():
     conn = sqlite3.connect(THP45_DB)
@@ -56,7 +79,7 @@ def get_active_blockout_setting():
     row = cursor.fetchone()
     conn.close()
     print(f"Active Blockout Setting: ['{row}']")
-    return row[1] if row else None
+    return row if row else None
 
 def get_blockout_setting_by_name(setting_name):
     conn = sqlite3.connect(THP45_DB)
@@ -69,10 +92,19 @@ def get_blockout_setting_by_name(setting_name):
 def is_valid_blockout_setting(setting):
     active_setting = get_active_blockout_setting()
     print("Active Blockout Setting:", active_setting)
-    if active_setting == setting:
+    if active_setting[1] == setting:
         print(f"Blockout setting ['{setting}'] is already active. Nothing to do...")
         return False
     return True
+
+def calculate_button_pushes(current_hour, new_hour):
+    """
+    Calculates the number of button pushes needed to go from current_hour to new_hour.
+    Handles wrap-around for 24-hour format.
+    """
+    pushes = (new_hour - current_hour) % 24
+    print(f"Button pushes needed to go from {current_hour} to {new_hour}: {pushes}")
+    return pushes
 
 if __name__ == "__main__":
     if len(sys.argv) == 2:

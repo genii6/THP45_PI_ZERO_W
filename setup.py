@@ -16,7 +16,7 @@ def create_database():
     ''')
     cursor.execute(
         "INSERT INTO blockout_settings (setting_name, setting_start_hour, setting_end_hour, active) VALUES (?, ?, ?, ?)",
-            ("disabled", 00, 00, 1) # Disabled setting
+            ("disabled", 0, 0, 1) # Disabled setting
     )
     cursor.execute(
         "INSERT INTO blockout_settings (setting_name, setting_start_hour, setting_end_hour, active) VALUES (?, ?, ?, ?)",
