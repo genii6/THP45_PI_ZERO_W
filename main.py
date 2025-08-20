@@ -1,6 +1,7 @@
 import RPi.GPIO as GPIO
 import time
 import sqlite3
+import sys
 
 BUTTON_GPIO_UP = 22
 BUTTON_GPIO_DOWN = 27
