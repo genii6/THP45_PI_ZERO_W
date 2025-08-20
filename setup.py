@@ -1,7 +1,9 @@
 import sqlite3
 
+THP45_DB = 'THP45.db'
+
 def create_database():
-    conn = sqlite3.connect('THP45.db')
+    conn = sqlite3.connect(THP45_DB)
     cursor = conn.cursor()
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS blockout_settings (
@@ -27,5 +29,17 @@ def create_database():
     conn.commit()
     conn.close()
 
+def get_all_blockout_settings():
+    conn = sqlite3.connect(THP45_DB)
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM blockout_settings")
+    rows = cursor.fetchall()
+    conn.close()
+    print("Blockout Settings:")
+    for row in rows:
+        print(row)
+    return rows
+
 if __name__ == "__main__":
     create_database()
+    get_all_blockout_settings()

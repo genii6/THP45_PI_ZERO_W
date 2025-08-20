@@ -29,7 +29,7 @@ def short_press(pin):
     GPIO.output(pin, GPIO.LOW)
     time.sleep(PAUSE_DURATION)
 
-def simulate_setup_mode():
+def enter_setup_mode():
     # Simulate a long press to enter setup mode
     GPIO.output(BUTTON_GPIO_UP, GPIO.HIGH)
     GPIO.output(BUTTON_GPIO_DOWN, GPIO.HIGH)
@@ -41,28 +41,48 @@ def simulate_setup_mode():
 def enter_blockout_mode():
     # Simulate a short press to enter blockout mode
     short_press(BUTTON_GPIO_DOWN)
+    short_press(BUTTON_GPIO_ENTER)
 
-def get_all_blockout_settings():
+# Setup the blockout time here.
+def set_blockout_time(setting):
+    print(f"Setting blockout time for: {setting}")
+    row = get_blockout_setting_by_name(setting)
+    print(f"Blockout Setting: {row}")
+
+def get_active_blockout_setting():
     conn = sqlite3.connect(THP45_DB)
     cursor = conn.cursor()
-    cursor.execute("SELECT * FROM blockout_settings")
-    rows = cursor.fetchall()
+    cursor.execute("SELECT * FROM blockout_settings WHERE active = 1")
+    row = cursor.fetchone()
     conn.close()
-    print("Blockout Settings:")
-    for row in rows:
-        print(row)
-    return rows
+    print(f"Active Blockout Setting: ['{row}']")
+    return row[0][1] if row else None
+
+def get_blockout_setting_by_name(setting_name):
+    conn = sqlite3.connect(THP45_DB)
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM blockout_settings WHERE setting_name = ?", (setting_name,))
+    row = cursor.fetchone()
+    conn.close()
+    return row if row else None
+
+def is_valid_blockout_setting(setting):
+    active_setting = get_active_blockout_setting()
+    print("Active Blockout Setting:", active_setting)
+    if active_setting == setting:
+        print(f"Blockout setting ['{setting}'] is already active. Nothing to do...")
+        return False
+    return True
 
 if __name__ == "__main__":
-    if len(sys.argv) > 1:
+    if len(sys.argv) == 1:
         print(f"The script name is: {sys.argv[0]}")
         print(f"The first argument is: {sys.argv[1]}")
-        # You can iterate through sys.argv[1:] to process all arguments
+        if is_valid_blockout_setting(sys.argv[1]):
+            setup_gpio()
+            enter_setup_mode()
+            enter_blockout_mode()
+            set_blockout_time(sys.argv[1])
+            GPIO.cleanup()
     else:
-        print("No arguments provided.")
-    setup_gpio()
-    simulate_setup_mode()
-    enter_blockout_mode()
-    short_press(BUTTON_GPIO_ENTER)
-    GPIO.cleanup()
-    get_all_blockout_settings()
+        print("Please specify only one argument. [disabled / peak / overnight]")
