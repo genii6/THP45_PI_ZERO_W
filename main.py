@@ -23,6 +23,7 @@ def short_press(pin):
     GPIO.output(pin, GPIO.HIGH)
     time.sleep(BUTTON_SHORT_PRESS_DURATION)
     GPIO.output(pin, GPIO.LOW)
+    time.sleep(PAUSE_DURATION)
 
 def simulate_setup_mode():
     # Simulate a long press to enter setup mode
