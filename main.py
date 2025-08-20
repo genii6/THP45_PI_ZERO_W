@@ -75,7 +75,7 @@ def is_valid_blockout_setting(setting):
     return True
 
 if __name__ == "__main__":
-    if len(sys.argv) == 1:
+    if len(sys.argv) == 2:
         print(f"The script name is: {sys.argv[0]}")
         print(f"The first argument is: {sys.argv[1]}")
         if is_valid_blockout_setting(sys.argv[1]):
