@@ -1,5 +1,6 @@
 import RPi.GPIO as GPIO
 import time
+import sqlite3
 
 BUTTON_GPIO_UP = 22
 BUTTON_GPIO_DOWN = 27
@@ -8,6 +9,8 @@ BUTTON_GPIO_ENTER = 22
 BUTTON_LONG_PRESS_DURATION = 3.0  # 3000ms
 BUTTON_SHORT_PRESS_DURATION = 0.2  # 200ms
 PAUSE_DURATION = 1  # 1 second
+
+THP45_DB = 'THP45.db'
 
 def setup_gpio():
     GPIO.setmode(GPIO.BCM)
@@ -37,6 +40,17 @@ def simulate_setup_mode():
 def enter_blockout_mode():
     # Simulate a short press to enter blockout mode
     short_press(BUTTON_GPIO_DOWN)
+
+def get_all_blockout_settings():
+    conn = sqlite3.connect(THP45_DB)
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM blockout_settings")
+    rows = cursor.fetchall()
+    conn.close()
+    print("Blockout Settings:")
+    for row in rows:
+        print(row)
+    return rows
 
 if __name__ == "__main__":
     setup_gpio()
