@@ -40,7 +40,7 @@ def enter_setup_mode():
 
 def enter_blockout_mode():
     # Simulate a short press to enter blockout mode
-    short_press(BUTTON_GPIO_DOWN)
+    short_press(BUTTON_GPIO_UP)
     short_press(BUTTON_GPIO_ENTER)
 
 # Setup the blockout time here.
@@ -123,8 +123,8 @@ if __name__ == "__main__":
             setup_gpio()
             enter_setup_mode()
             enter_blockout_mode()
-            set_blockout_time(sys.argv[1])
-            set_blockout_setting_active(sys.argv[1])
+            #set_blockout_time(sys.argv[1])
+            #set_blockout_setting_active(sys.argv[1])
             print("Blockout time set successfully.")
             GPIO.cleanup()
     else:
