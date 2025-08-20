@@ -58,3 +58,4 @@ if __name__ == "__main__":
     enter_blockout_mode()
     short_press(BUTTON_GPIO_ENTER)
     GPIO.cleanup()
+    get_all_blockout_settings()
