@@ -37,10 +37,10 @@ def simulate_setup_mode():
 def enter_blockout_mode():
     # Simulate a short press to enter blockout mode
     short_press(BUTTON_GPIO_DOWN)
-    short_press(BUTTON_GPIO_DOWN)
 
 if __name__ == "__main__":
     setup_gpio()
     simulate_setup_mode()
     enter_blockout_mode()
+    short_press(BUTTON_GPIO_ENTER)
     GPIO.cleanup()
