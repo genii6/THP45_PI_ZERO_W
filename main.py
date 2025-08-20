@@ -81,6 +81,15 @@ def get_active_blockout_setting():
     print(f"Active Blockout Setting: ['{row}']")
     return row if row else None
 
+def set_blockout_setting_active(setting_name):
+    conn = sqlite3.connect(THP45_DB)
+    cursor = conn.cursor()
+    cursor.execute("UPDATE blockout_settings SET active = 0 WHERE active = 1")
+    cursor.execute("UPDATE blockout_settings SET active = 1 WHERE setting_name = ?", (setting_name,))
+    conn.commit()
+    conn.close()
+    print(f"Blockout setting '{setting_name}' is now active.")
+
 def get_blockout_setting_by_name(setting_name):
     conn = sqlite3.connect(THP45_DB)
     cursor = conn.cursor()
@@ -115,6 +124,8 @@ if __name__ == "__main__":
             enter_setup_mode()
             enter_blockout_mode()
             set_blockout_time(sys.argv[1])
+            set_blockout_setting_active(sys.argv[1])
+            print("Blockout time set successfully.")
             GPIO.cleanup()
     else:
         print("Please specify only one argument. [disabled / peak / overnight]")
