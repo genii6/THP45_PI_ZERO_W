@@ -2,6 +2,7 @@ import RPi.GPIO as GPIO
 import time
 import sqlite3
 import sys
+import datetime
 
 BUTTON_GPIO_UP = 22
 BUTTON_GPIO_DOWN = 27
@@ -11,7 +12,7 @@ BUTTON_LONG_PRESS_DURATION = 3.0  # 3000ms
 BUTTON_SHORT_PRESS_DURATION = 0.2  # 200ms
 PAUSE_DURATION = 0.5  # 0.5 second
 
-THP45_DB = '~/THP45_PI_ZERO_W/THP45.db'
+THP45_DB = '/home/genii/THP45_PI_ZERO_W/THP45.db'
 
 def setup_gpio():
     GPIO.setmode(GPIO.BCM)
@@ -122,8 +123,9 @@ def calculate_button_pushes(current_hour, new_hour):
 
 if __name__ == "__main__":
     if len(sys.argv) == 2:
-        print(f"The script name is: {sys.argv[0]}")
-        print(f"The first argument is: {sys.argv[1]}")
+        print(f"Current Date/Time is: {datetime.datetime.now()}");
+        print(f"Running Blockout Config script: {sys.argv[0]}")
+        print(f"Provided Blockout Setting is: {sys.argv[1]}")
         if is_valid_blockout_setting(sys.argv[1]):
             setup_gpio()
             enter_setup_mode()
