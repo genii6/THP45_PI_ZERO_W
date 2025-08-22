@@ -11,7 +11,7 @@ BUTTON_LONG_PRESS_DURATION = 3.0  # 3000ms
 BUTTON_SHORT_PRESS_DURATION = 0.2  # 200ms
 PAUSE_DURATION = 0.5  # 0.5 second
 
-THP45_DB = 'THP45.db'
+THP45_DB = './THP45.db'
 
 def setup_gpio():
     GPIO.setmode(GPIO.BCM)
