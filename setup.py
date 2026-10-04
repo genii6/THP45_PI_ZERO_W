@@ -24,7 +24,7 @@ def create_database():
     )
     cursor.execute(
         "INSERT INTO blockout_settings (setting_name, setting_start_hour, setting_end_hour, active) VALUES (?, ?, ?, ?)",
-            ("overnight", 22, 10, 0) # overnight blockout setting
+            ("overnight", 22, 7, 0) # overnight blockout setting
     )
     cursor.execute(
         "INSERT INTO blockout_settings (setting_name, setting_start_hour, setting_end_hour, active) VALUES (?, ?, ?, ?)",
